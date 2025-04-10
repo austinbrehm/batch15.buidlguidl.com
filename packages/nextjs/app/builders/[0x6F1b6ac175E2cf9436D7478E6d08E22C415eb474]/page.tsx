@@ -7,17 +7,16 @@ import { Address } from "~~/components/scaffold-eth";
 const BiliqisBuilderPage: NextPage = () => {
   return (
     <main className="p-8 max-w-2xl mx-auto space-y-6 bg-white dark:bg-gray-900 rounded-2xl shadow-lg mt-10 transition-colors duration-300">
-      <div className="flex items-center space-x-5  h-32 relative">
+      <div className="flex flex-col items-center space-y-4">
         <Image
-          src="/biliqis.jpg"
+          src="/pexels-pixabay-416160.jpg"
           alt="my Avatar"
-          width={120}
-          height={200}
+          width={160}
+          height={160}
           className="object-cover rounded-full border-4 border-blue-500 shadow-md dark:border-blue-300"
         />
-
-        <div>
-          <h1 className="text-2xl font-extrabold text-blue-800 dark:text-blue-400">Biliqis Onikoyi</h1>
+        <div className="text-center">
+          <h1 className="text-3xl font-extrabold text-blue-800 dark:text-blue-400">Biliqis Onikoyi</h1>
           <p className="text-sm text-gray-600 dark:text-gray-300 italic">Builder | Smart Contract Wizard | Rust</p>
         </div>
       </div>
