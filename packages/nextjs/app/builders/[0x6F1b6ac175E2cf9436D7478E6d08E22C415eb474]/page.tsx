@@ -1,26 +1,31 @@
 import Image from "next/image";
+import { NextPage } from "next";
+import { Address } from "~~/components/scaffold-eth";
 
-export default function BuilderPage() {
+// or wherever it's defined
+
+const BiliqisBuilderPage: NextPage = () => {
   return (
-    <main className="p-8 max-w-2xl mx-auto space-y-6 bg-white rounded-2xl shadow-lg mt-10">
-      <div className="flex items-center space-x-5">
+    <main className="p-8 max-w-2xl mx-auto space-y-6 bg-white dark:bg-gray-900 rounded-2xl shadow-lg mt-10 transition-colors duration-300">
+      <div className="flex items-center space-x-5  h-32 relative">
         <Image
           src="/pexels-pixabay-416160.jpg"
-          alt="Your Avatar"
-          width={80}
-          height={80}
-          className="rounded-full border-2 border-blue-500"
+          alt="my Avatar"
+          width={120}
+          height={200}
+          className="object-cover rounded-full border-4 border-blue-500 shadow-md dark:border-blue-300"
         />
+
         <div>
-          <h1 className="text-2xl font-extrabold text-blue-800">Biliqis Onikoyi</h1>
-          <p className="text-sm text-gray-600 italic">Builder | Smart Contract Wizard | Rust</p>
+          <h1 className="text-2xl font-extrabold text-blue-800 dark:text-blue-400">Biliqis Onikoyi</h1>
+          <p className="text-sm text-gray-600 dark:text-gray-300 italic">Builder | Smart Contract Wizard | Rust</p>
         </div>
       </div>
 
-      <div className="space-y-2 text-gray-700">
+      <div className="space-y-2 text-gray-700 dark:text-gray-200">
         <p>
           Hey there! I&apos;m currently building{" "}
-          <span className="font-semibold text-blue-700">at BuidlGuidl Batch 15.</span>
+          <span className="font-semibold text-blue-700 dark:text-blue-300">at BuidlGuidl Batch 15.</span>
         </p>
         <p>
           Passionate about Ethereum, Solidity, and scaling dapps with gasless UX. Let&apos;s build the future together
@@ -28,7 +33,7 @@ export default function BuilderPage() {
         </p>
       </div>
 
-      <div className="flex gap-4 text-blue-600">
+      <div className="flex gap-4 text-blue-600 dark:text-blue-400">
         <a
           href="https://github.com/BiliqisO"
           className="hover:underline font-medium"
@@ -47,9 +52,11 @@ export default function BuilderPage() {
         </a>
       </div>
 
-      <p className="text-xs text-gray-400 mt-6">
-        Address: <span className="font-mono text-gray-600">0x6F1b6ac175E2cf9436D7478E6d08E22C415eb474</span>
-      </p>
+      <div className="text-xs text-gray-500 mt-6">
+        <Address address="0x6F1b6ac175E2cf9436D7478E6d08E22C415eb474" />
+      </div>
     </main>
   );
-}
+};
+
+export default BiliqisBuilderPage;
