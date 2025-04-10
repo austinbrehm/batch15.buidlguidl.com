@@ -9,7 +9,7 @@ const BiliqisBuilderPage: NextPage = () => {
     <main className="p-8 max-w-2xl mx-auto space-y-6 bg-white dark:bg-gray-900 rounded-2xl shadow-lg mt-10 transition-colors duration-300">
       <div className="flex items-center space-x-5  h-32 relative">
         <Image
-          src="/pexels-pixabay-416160.jpg"
+          src="/biliqis.jpg"
           alt="my Avatar"
           width={120}
           height={200}
