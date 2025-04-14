@@ -2,8 +2,6 @@ import Image from "next/image";
 import { NextPage } from "next";
 import { Address } from "~~/components/scaffold-eth";
 
-// or wherever it's defined
-
 const BiliqisBuilderPage: NextPage = () => {
   return (
     <main className="p-8 max-w-2xl mx-auto space-y-6 bg-white dark:bg-gray-900 rounded-2xl shadow-lg mt-10 transition-colors duration-300">
