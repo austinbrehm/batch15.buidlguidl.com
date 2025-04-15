@@ -24,9 +24,9 @@ const SmartdevProfilePage: NextPage = () => {
         </div>
         <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Smartdev</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300 mt-2">
+          <div className="text-lg text-gray-600 dark:text-gray-300 mt-2">
             <Address address="0x575109e921C6d6a1Cb7cA60Be0191B10950AfA6C" />
-          </p>
+          </div>
           <p className="mt-4 text-gray-900 dark:text-gray-200">
             Solidity developer passionate about DeFi and DAO governance.
           </p>
