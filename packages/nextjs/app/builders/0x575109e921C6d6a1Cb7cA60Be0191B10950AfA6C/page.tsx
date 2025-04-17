@@ -50,7 +50,7 @@ const SmartdevProfilePage: NextPage = () => {
       <section className="flex flex-col md:flex-row gap-8 items-center mb-12">
         <div className="w-32 h-32 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
           <Image
-            src="/profile-pic.jpeg"
+            src="/smartdev-pic.jpeg"
             alt="Smartdev Avatar"
             width={128}
             height={128}
