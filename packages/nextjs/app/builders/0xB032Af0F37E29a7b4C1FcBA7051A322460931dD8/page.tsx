@@ -4,49 +4,48 @@ import Image from "next/image";
 import { ClassValue, clsx } from "clsx";
 import { motion } from "framer-motion";
 import { NextPage } from "next";
-import { toast } from "react-hot-toast";
 import { FaGithub, FaTelegram, FaTwitter } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 import { ChatBubbleLeftRightIcon, CodeBracketIcon, GlobeAltIcon } from "@heroicons/react/24/outline";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 import { Address } from "~~/components/scaffold-eth";
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+    },
+  },
+};
+const variants = {
+  initial: {
+    backgroundPosition: "0 50%",
+  },
+  animate: {
+    backgroundPosition: ["0, 50%", "100% 50%", "0 50%"],
+  },
+};
+const skills = [
+  { name: "Ethereum", level: 90 },
+  { name: "Solidity", level: 85 },
+  { name: "Typescript", level: 95 },
+  { name: "Smart Contracts", level: 88 },
+];
+
 const AyushDuttSharmaProfilePage: NextPage = () => {
-  const copyAddress = () => {
-    navigator.clipboard.writeText("0xB032Af0F37E29a7b4C1FcBA7051A322460931dD8");
-    toast.success("Address copied to clipboard!", {
-      icon: "📋",
-    });
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
-
-  const skills = [
-    { name: "Ethereum", level: 90 },
-    { name: "Solidity", level: 85 },
-    { name: "Typescript", level: 95 },
-    { name: "Smart Contracts", level: 88 },
-  ];
-
   return (
     <div className="flex justify-center items-center min-h-screen px-4 py-12 bg-gray-50 dark:bg-gray-900">
       <motion.main initial="hidden" animate="visible" variants={containerVariants} className="w-full max-w-4xl">
@@ -85,14 +84,7 @@ const AyushDuttSharmaProfilePage: NextPage = () => {
                     <ChatBubbleLeftRightIcon className="w-3 h-3 mr-1" /> Typescript
                   </span>
                 </motion.div>
-
-                <motion.div
-                  variants={itemVariants}
-                  onClick={copyAddress}
-                  className="inline-flex items-center space-x-2 mt-2 text-sm text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 px-3 py-1 rounded-full cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-300"
-                >
-                  <Address address="0xB032Af0F37E29a7b4C1FcBA7051A322460931dD8" />
-                </motion.div>
+                <Address address="0xB032Af0F37E29a7b4C1FcBA7051A322460931dD8" />
               </div>
             </motion.div>
           </div>
@@ -189,14 +181,6 @@ function BackgroundGradient({
   containerClassName?: string;
   animate?: boolean;
 }) {
-  const variants = {
-    initial: {
-      backgroundPosition: "0 50%",
-    },
-    animate: {
-      backgroundPosition: ["0, 50%", "100% 50%", "0 50%"],
-    },
-  };
   return (
     <div className={cn("relative p-[4px] group", containerClassName)}>
       <motion.div
