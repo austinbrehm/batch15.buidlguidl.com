@@ -7,7 +7,7 @@ import { Address } from "~~/components/scaffold-eth";
 const BuilderPage: NextPage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4">
-      <Image src="/xpfp.png" alt="Profile" width={128} height={128} className="w-32 h-32 rounded-full mb-4" />
+      <Image src="/danilevski.png" alt="Profile" width={128} height={128} className="w-32 h-32 rounded-full mb-4" />
       <h1 className="text-2xl md:text-3xl font-bold mb-4">Hey, I am danilevski!</h1>
       <p className="text-base md:text-lg mb-4 max-w-md text-center">
         Trying to learn coding with the help of such a great platform, thanks for being able to be here! I am completely
