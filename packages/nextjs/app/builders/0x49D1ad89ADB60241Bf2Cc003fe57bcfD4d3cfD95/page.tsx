@@ -40,4 +40,4 @@ const DanielvskiPage: NextPage = () => {
   );
 };
 
-export default BuilderPage;
+export default DanilevskiPage;
