@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import { FaGithub, FaTwitter } from "react-icons/fa";
 import { Address } from "~~/components/scaffold-eth";
 
-const BuilderPage: NextPage = () => {
+const DanielvskiPage: NextPage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4">
       <Image src="/danilevski.png" alt="Profile" width={128} height={128} className="w-32 h-32 rounded-full mb-4" />
