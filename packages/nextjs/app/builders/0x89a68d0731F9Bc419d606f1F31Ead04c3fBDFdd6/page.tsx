@@ -24,48 +24,48 @@ interface SocialLink {
   darkHoverColor: string;
 }
 
+const profile: ProfileData = {
+  name: "Samuel Owen",
+  title: "Frontend Web/Smart Contract Developer",
+  bio: "Dynamic developer, Problem-solver, versatile and resilient. Passionate about Blockchain and crypto mainstream adoption/inclusion.",
+  avatar: "/owen.webp",
+  location: "Lagos, Nigeria",
+  email: "samkinola15@gmail.com",
+  social: {
+    github: "https://github.com/Samuel1505",
+    twitter: "https://x.com/Samuel_Owen5",
+    linkedin: "https://www.linkedin.com/in/samuel-owen-b47570244/",
+  },
+};
+
+const socialLinks: SocialLink[] = [
+  {
+    href: profile.social.github,
+    icon: FaGithub,
+    lightHoverColor: "hover:text-gray-900",
+    darkHoverColor: "dark:hover:text-gray-200",
+  },
+  {
+    href: profile.social.twitter,
+    icon: FaTwitter,
+    lightHoverColor: "hover:text-blue-400",
+    darkHoverColor: "dark:hover:text-blue-300",
+  },
+  {
+    href: profile.social.linkedin,
+    icon: FaLinkedin,
+    lightHoverColor: "hover:text-blue-600",
+    darkHoverColor: "dark:hover:text-blue-400",
+  },
+  {
+    href: `mailto:${profile.email}`,
+    icon: FaEnvelope,
+    lightHoverColor: "hover:text-red-500",
+    darkHoverColor: "dark:hover:text-red-400",
+  },
+];
+
 const SamProfilePage: NextPage = () => {
-  const profile: ProfileData = {
-    name: "Samuel Owen",
-    title: "Frontend/Smart Contract Developer",
-    bio: "Dynamic developer, Problem-solver, versatile and resilient. Passionate about Blockchain and crypto mainstream adoption/inclusion.",
-    avatar: "/owen.webp",
-    location: "Lagos, Nigeria",
-    email: "samkinola15@gmail.com",
-    social: {
-      github: "https://github.com/Samuel1505",
-      twitter: "https://x.com/Samuel_Owen5",
-      linkedin: "https://www.linkedin.com/in/samuel-owen-b47570244/",
-    },
-  };
-
-  const socialLinks: SocialLink[] = [
-    {
-      href: profile.social.github,
-      icon: FaGithub,
-      lightHoverColor: "hover:text-gray-900",
-      darkHoverColor: "dark:hover:text-gray-200",
-    },
-    {
-      href: profile.social.twitter,
-      icon: FaTwitter,
-      lightHoverColor: "hover:text-blue-400",
-      darkHoverColor: "dark:hover:text-blue-300",
-    },
-    {
-      href: profile.social.linkedin,
-      icon: FaLinkedin,
-      lightHoverColor: "hover:text-blue-600",
-      darkHoverColor: "dark:hover:text-blue-400",
-    },
-    {
-      href: `mailto:${profile.email}`,
-      icon: FaEnvelope,
-      lightHoverColor: "hover:text-red-500",
-      darkHoverColor: "dark:hover:text-red-400",
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-white dark:bg-gray-800 shadow-lg rounded-xl overflow-hidden">
