@@ -2,49 +2,49 @@ import React from "react";
 import Image from "next/image";
 import { NextPage } from "next";
 import { FaGithub, FaTelegram, FaTwitter } from "react-icons/fa";
-import { MotionDiv, MotionS } from "~~/components/MotionElements";
+import { MotionDiv, MotionSection } from "~~/components/MotionElements";
 import { Address } from "~~/components/scaffold-eth";
 
-const PortfolioPage: NextPage = () => {
-  const socials = [
-    { name: "GitHub", url: "https://github.com/amsorrytola", icon: <FaGithub className="w-5 h-5" /> },
-    { name: "Twitter", url: "https://x.com/An92147600_", icon: <FaTwitter className="w-5 h-5" /> },
-    { name: "Telegram", url: "https://t.me/tolaamsorry", icon: <FaTelegram className="w-5 h-5" /> },
-  ];
+const socials = [
+  { name: "GitHub", url: "https://github.com/amsorrytola", icon: <FaGithub className="w-5 h-5" /> },
+  { name: "Twitter", url: "https://x.com/An92147600_", icon: <FaTwitter className="w-5 h-5" /> },
+  { name: "Telegram", url: "https://t.me/tolaamsorry", icon: <FaTelegram className="w-5 h-5" /> },
+];
 
-  const skills = [
-    { name: "Solidity", icon: "🛠️" },
-    { name: "Foundry", icon: "🧪" },
-    { name: "TypeScript", icon: "🔷" },
-    { name: "React", icon: "⚛️" },
-    { name: "Next.js", icon: "⏭️" },
-    { name: "Tailwind CSS", icon: "💨" },
-    { name: "Wagmi & RainbowKit", icon: "🌈" },
-    { name: "zkEmail", icon: "🔐" },
-    { name: "Bitcoin + Runes Protocol", icon: "₿" },
-    { name: "API & ERP Integration", icon: "🔗" },
-    { name: "Smart Contract Events & Hooks", icon: "📚" },
-  ];
+const skills = [
+  { name: "Solidity", icon: "🛠️" },
+  { name: "Foundry", icon: "🧪" },
+  { name: "TypeScript", icon: "🔷" },
+  { name: "React", icon: "⚛️" },
+  { name: "Next.js", icon: "⏭️" },
+  { name: "Tailwind CSS", icon: "💨" },
+  { name: "Wagmi & RainbowKit", icon: "🌈" },
+  { name: "zkEmail", icon: "🔐" },
+  { name: "Bitcoin + Runes Protocol", icon: "₿" },
+  { name: "API & ERP Integration", icon: "🔗" },
+  { name: "Smart Contract Events & Hooks", icon: "📚" },
+];
 
-  const projects = [
-    {
-      title: "Bitcoin Etching API",
-      stack: "Node.js • Bitcoin Core • Testnet",
-      description:
-        "Built a custom Bitcoin API for etching Runes using regtest and migrated to testnet with UniSat Wallet support.",
-    },
-    {
-      title: "zkEmail Attendance dApp",
-      stack: "zkEmail • Solidity • Scaffold-ETH 2",
-      description: "Decentralized check-in system using zk proofs of email, integrated with BatchRegistry on Arbitrum.",
-    },
-    {
-      title: "ERP Integration Suite",
-      stack: "Node.js • REST APIs • MongoDB",
-      description: "Built a backend to unify third-party ERP systems with vendor-normalized data and secure endpoints.",
-    },
-  ];
+const projects = [
+  {
+    title: "Bitcoin Etching API",
+    stack: "Node.js • Bitcoin Core • Testnet",
+    description:
+      "Built a custom Bitcoin API for etching Runes using regtest and migrated to testnet with UniSat Wallet support.",
+  },
+  {
+    title: "zkEmail Attendance dApp",
+    stack: "zkEmail • Solidity • Scaffold-ETH 2",
+    description: "Decentralized check-in system using zk proofs of email, integrated with BatchRegistry on Arbitrum.",
+  },
+  {
+    title: "ERP Integration Suite",
+    stack: "Node.js • REST APIs • MongoDB",
+    description: "Built a backend to unify third-party ERP systems with vendor-normalized data and secure endpoints.",
+  },
+];
 
+const TalhaPortfolioPage: NextPage = () => {
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100 transition-colors duration-500">
       <div className="max-w-5xl mx-auto px-6 py-12">
@@ -82,7 +82,12 @@ const PortfolioPage: NextPage = () => {
           </MotionDiv>
         </div>
 
-        <MotionS initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }} className="mt-16">
+        <MotionSection
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="mt-16"
+        >
           <h2 className="text-3xl font-semibold mb-6">About Me</h2>
           <p className="text-zinc-700 dark:text-zinc-300 text-lg">
             I&apos;m a passionate developer building on Ethereum and Bitcoin. From smart contract logic and staking
@@ -90,9 +95,14 @@ const PortfolioPage: NextPage = () => {
             I&apos;m also exploring new protocols like Runes and zkEmail, and love crafting smooth UIs using React,
             Next.js, Tailwind, and animations with Framer Motion.
           </p>
-        </MotionS>
+        </MotionSection>
 
-        <MotionS initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }} className="mt-16">
+        <MotionSection
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="mt-16"
+        >
           <h2 className="text-3xl font-semibold mb-6">Skills</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
             {skills.map(({ name, icon }) => (
@@ -105,9 +115,14 @@ const PortfolioPage: NextPage = () => {
               </div>
             ))}
           </div>
-        </MotionS>
+        </MotionSection>
 
-        <MotionS initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }} className="mt-16">
+        <MotionSection
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="mt-16"
+        >
           <h2 className="text-3xl font-semibold mb-6">Recent Projects</h2>
           <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
             {projects.map((project, index) => (
@@ -122,10 +137,10 @@ const PortfolioPage: NextPage = () => {
               </MotionDiv>
             ))}
           </div>
-        </MotionS>
+        </MotionSection>
       </div>
     </div>
   );
 };
 
-export default PortfolioPage;
+export default TalhaPortfolioPage;
