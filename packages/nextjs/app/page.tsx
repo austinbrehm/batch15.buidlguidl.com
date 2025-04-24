@@ -1,10 +1,41 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { NextPage } from "next";
+import { useReadContract, useWatchContractEvent } from "wagmi";
 import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import externalContracts from "~~/contracts/externalContracts";
 
 const Home: NextPage = () => {
+  const [count, setCount] = useState<number | null>(null);
+
+  const { data: initialCount, refetch } = useReadContract({
+    address: externalContracts[42161].BatchRegistry.address,
+    abi: externalContracts[42161].BatchRegistry.abi,
+    functionName: "checkedInCounter",
+  });
+
+  useEffect(() => {
+    if (initialCount !== undefined) {
+      setCount(Number(initialCount));
+    }
+  }, [initialCount]);
+
+  useWatchContractEvent({
+    address: externalContracts[42161].BatchRegistry.address,
+    abi: externalContracts[42161].BatchRegistry.abi,
+    eventName: "CheckedIn",
+    onLogs() {
+      // Each time a CheckIn happens, update the counter
+      refetch().then(updated => {
+        if (updated !== undefined) {
+          setCount(Number(updated));
+        }
+      });
+    },
+  });
+
   return (
     <>
       <div className="flex items-center flex-col flex-grow pt-10">
@@ -16,7 +47,7 @@ const Home: NextPage = () => {
           <p className="text-center text-lg">Get started by taking a look at your batch GitHub repository.</p>
           <p className="text-lg flex gap-2 justify-center">
             <span className="font-bold">Checked in builders count:</span>
-            <span>To Be Implemented</span>
+            <span>{count}</span>
           </p>
         </div>
 
