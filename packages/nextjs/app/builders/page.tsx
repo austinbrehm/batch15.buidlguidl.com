@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ClassValue, clsx } from "clsx";
 import { AnimatePresence } from "motion/react";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+import { useTheme } from "next-themes";
 import { Toaster } from "react-hot-toast";
 import { FaEthereum, FaGithub, FaLinkedin, FaTelegram, FaTwitter } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
@@ -105,9 +106,26 @@ function shuffleArray<T>(array: T[]): T[] {
   return newArray;
 }
 
+const lightColors = {
+  stopColor1: "#18CCFC",
+  stopColor2: "#6344F5",
+  stopColor3: "#AE48FF",
+  radialStop: "#213448",
+};
+
+const darkColors = {
+  stopColor1: "#18CCFC",
+  stopColor2: "#6344F5",
+  stopColor3: "#AE48FF",
+  radialStop: "#EFEEEA",
+};
+
 export default function BuildersPage() {
   const builders = shuffleArray(INITIAL_BUILDERS);
   const [searchTerm, setSearchTerm] = useState("");
+  const { resolvedTheme } = useTheme();
+
+  const isDarkMode = resolvedTheme === "dark";
 
   const filteredBuilders = builders.filter(
     builder =>
@@ -117,8 +135,15 @@ export default function BuildersPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white overflow-hidden relative">
-      <ProgressBar height="4px" color="#6366f1" options={{ showSpinner: true }} shallowRouting />
+    <div
+      className={cn(
+        "min-h-screen overflow-hidden relative",
+        isDarkMode
+          ? "bg-gradient-to-br from-gray-900 to-gray-800 text-white"
+          : "bg-gradient-to-br from-gray-100 to-white text-gray-900",
+      )}
+    >
+      <ProgressBar height="4px" color="#6366f1" options={{ showSpinner: false }} shallowRouting />
       <Toaster position="top-right" />
 
       <header className="py-12 px-4 md:px-8 lg:px-16 relative z-10">
@@ -136,12 +161,12 @@ export default function BuildersPage() {
             }}
             transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
           >
-            <SparklesIcon className="h-16 w-16 text-indigo-400 mx-auto" />
+            <SparklesIcon className={cn("h-16 w-16 mx-auto", isDarkMode ? "text-indigo-400" : "text-indigo-600")} />
           </MotionDiv>
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
             buildGuild <FlipWords words={["Builders", "Makers", "Contributors"]} />
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className={cn("text-xl max-w-3xl mx-auto", isDarkMode ? "text-gray-300" : "text-gray-700")}>
             Discover the builders contributing to the buildGuild ecosystem. Connect, collaborate, and build the future
             of web3 together.
           </p>
@@ -153,19 +178,29 @@ export default function BuildersPage() {
           <MotionDiv
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.01, delay: 1 * 0.1 }}
+            transition={{ duration: 0.4 }}
             className="flex justify-center mb-8"
           >
             <div className="relative w-full max-w-2xl">
               <input
                 type="text"
                 placeholder="Search by name, address, or skills..."
-                className="w-full bg-gray-800/50 border border-gray-700 text-white rounded-lg py-3 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className={cn(
+                  "w-full border rounded-lg py-3 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-indigo-500",
+                  isDarkMode
+                    ? "bg-gray-800/50 border-gray-700 text-white"
+                    : "bg-white/70 border-gray-300 text-gray-900",
+                )}
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg
+                  className={cn("h-5 w-5", isDarkMode ? "text-gray-400" : "text-gray-500")}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -179,115 +214,143 @@ export default function BuildersPage() {
           <>
             {filteredBuilders.length === 0 ? (
               <div className="text-center py-16">
-                <UserCircleIcon className="mx-auto h-16 w-16 text-gray-600" />
-                <h3 className="mt-4 text-xl font-medium text-gray-400">No builders found</h3>
-                <p className="mt-1 text-gray-500">Try adjusting your search criteria.</p>
+                <UserCircleIcon className={cn("mx-auto h-16 w-16", isDarkMode ? "text-gray-600" : "text-gray-400")} />
+                <h3 className={cn("mt-4 text-xl font-medium", isDarkMode ? "text-gray-400" : "text-gray-600")}>
+                  No builders found
+                </h3>
+                <p className={cn("mt-1", isDarkMode ? "text-gray-500" : "text-gray-500")}>
+                  Try adjusting your search criteria.
+                </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredBuilders.map((builder, index) => (
-                  <Link href={`/builders/${builder.address}`} key={builder.address} prefetch>
-                    <MotionDiv
-                      className="bg-gray-800/60 backdrop-blur-sm border border-gray-700 rounded-xl overflow-hidden hover:border-indigo-500 transition-all duration-300"
-                      whileHover={{ scale: 1.02, y: -5 }}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.01, delay: index * 0.1 }}
-                    >
-                      <div className="p-6">
-                        <div className="flex items-center">
+                  <MotionDiv
+                    key={builder.address}
+                    className={cn(
+                      "backdrop-blur-sm border rounded-xl overflow-hidden transition-all duration-300 cursor-pointer",
+                      isDarkMode
+                        ? "bg-gray-800/60 border-gray-700 hover:border-indigo-500"
+                        : "bg-white/80 border-gray-200 hover:border-indigo-400 shadow-sm",
+                    )}
+                    whileHover={{ scale: 1.02, y: -5 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.5) }}
+                  >
+                    <div className="p-6">
+                      <div className="flex items-center mb-4">
+                        <Link href={`/builders/${builder.address}`} key={builder.address} prefetch>
                           <div className="relative">
                             <img
                               src={builder.avatar || "/image_not_found.png"}
                               alt={builder.name}
-                              className="w-14 h-14 rounded-full bg-gray-700 object-cover"
+                              className={cn(
+                                "w-14 h-14 rounded-full object-cover",
+                                isDarkMode ? "bg-gray-700" : "bg-gray-200",
+                              )}
+                              loading="lazy"
                             />
                           </div>
                           <div className="ml-4">
                             <h3 className="font-bold text-xl">{builder.name}</h3>
-                            <div className="flex items-center text-sm text-gray-400">
+                            <div
+                              className={cn(
+                                "flex items-center text-sm",
+                                isDarkMode ? "text-gray-400" : "text-gray-500",
+                              )}
+                            >
                               <FaEthereum className="mr-1" />
                               <span className="truncate w-32">{`${builder.address.substring(0, 6)}...${builder.address.substring(builder.address.length - 4)}`}</span>
                             </div>
                           </div>
-                        </div>
-                        {/* </Link> */}
+                        </Link>
+                      </div>
 
-                        <p className="text-gray-300 mb-4">{builder.bio}</p>
+                      <p className={cn("mb-4", isDarkMode ? "text-gray-300" : "text-gray-700")}>{builder.bio}</p>
 
-                        <div className="mb-4">
-                          <div className="flex flex-wrap gap-2">
-                            {builder.skills.map(skill => (
-                              <span
-                                key={skill}
-                                className="text-xs px-2 py-1 rounded-full bg-indigo-900/50 text-indigo-300 border border-indigo-800"
-                              >
-                                {skill}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="flex space-x-2">
-                          {builder.github && (
-                            <a
-                              href={`https://github.com/${builder.github}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-gray-400 hover:text-white"
-                              onClick={e => e.stopPropagation()}
+                      <div className="mb-4">
+                        <div className="flex flex-wrap gap-2">
+                          {builder.skills.map(skill => (
+                            <span
+                              key={skill}
+                              className={cn(
+                                "text-xs px-2 py-1 rounded-full",
+                                isDarkMode
+                                  ? "bg-indigo-900/50 text-indigo-300 border border-indigo-800"
+                                  : "bg-indigo-100 text-indigo-700 border border-indigo-200",
+                              )}
                             >
-                              <FaGithub className="w-5 h-5" />
-                            </a>
-                          )}
-                          {builder.twitter && (
-                            <a
-                              href={`https://x.com/${builder.twitter}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-gray-400 hover:text-white"
-                              onClick={e => e.stopPropagation()}
-                            >
-                              <FaTwitter className="w-5 h-5" />
-                            </a>
-                          )}
-                          {builder.linkedin && (
-                            <a
-                              href={`https://www.linkedin.com/in/${builder.linkedin}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-gray-400 hover:text-white"
-                              onClick={e => e.stopPropagation()}
-                            >
-                              <FaLinkedin className="w-5 h-5" />
-                            </a>
-                          )}
-                          {builder.telegram && (
-                            <a
-                              href={`https://t.me/${builder.telegram}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-gray-400 hover:text-white"
-                              onClick={e => e.stopPropagation()}
-                            >
-                              <FaTelegram className="w-5 h-5" />
-                            </a>
-                          )}
-                          {builder.warpcast && (
-                            <a
-                              href={`https://warpcast.com/${builder.warpcast}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-gray-400 hover:text-white"
-                              onClick={e => e.stopPropagation()}
-                            >
-                              <FiExternalLink className="w-5 h-5" />
-                            </a>
-                          )}
+                              {skill}
+                            </span>
+                          ))}
                         </div>
                       </div>
-                    </MotionDiv>
-                  </Link>
+
+                      <div className="flex space-x-2" onClick={e => e.stopPropagation()}>
+                        {builder.github && (
+                          <a
+                            href={`https://github.com/${builder.github}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={cn(
+                              isDarkMode ? "text-gray-400 hover:text-white" : "text-gray-500 hover:text-gray-900",
+                            )}
+                          >
+                            <FaGithub className="w-5 h-5" />
+                          </a>
+                        )}
+                        {builder.twitter && (
+                          <a
+                            href={`https://x.com/${builder.twitter}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={cn(
+                              isDarkMode ? "text-gray-400 hover:text-white" : "text-gray-500 hover:text-gray-900",
+                            )}
+                          >
+                            <FaTwitter className="w-5 h-5" />
+                          </a>
+                        )}
+                        {builder.linkedin && (
+                          <a
+                            href={`https://www.linkedin.com/in/${builder.linkedin}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={cn(
+                              isDarkMode ? "text-gray-400 hover:text-white" : "text-gray-500 hover:text-gray-900",
+                            )}
+                          >
+                            <FaLinkedin className="w-5 h-5" />
+                          </a>
+                        )}
+                        {builder.telegram && (
+                          <a
+                            href={`https://t.me/${builder.telegram}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={cn(
+                              isDarkMode ? "text-gray-400 hover:text-white" : "text-gray-500 hover:text-gray-900",
+                            )}
+                          >
+                            <FaTelegram className="w-5 h-5" />
+                          </a>
+                        )}
+                        {builder.warpcast && (
+                          <a
+                            href={`https://warpcast.com/${builder.warpcast}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={cn(
+                              isDarkMode ? "text-gray-400 hover:text-white" : "text-gray-500 hover:text-gray-900",
+                            )}
+                          >
+                            <FiExternalLink className="w-5 h-5" />
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </MotionDiv>
                 ))}
               </div>
             )}
@@ -385,6 +448,9 @@ function FlipWords({ words, duration = 3000, className }: { words: string[]; dur
 }
 
 const BackgroundBeams = React.memo(({ className }: { className?: string }) => {
+  const { theme } = useTheme();
+  const colors = theme === "dark" ? darkColors : lightColors;
+
   return (
     <div
       className={cn(
@@ -432,7 +498,7 @@ const BackgroundBeams = React.memo(({ className }: { className?: string }) => {
                 x1: ["0%", "100%"],
                 x2: ["0%", "95%"],
                 y1: ["0%", "100%"],
-                y2: ["0%", `${93 + Math.random() * 8}%`],
+                y2: ["0%", `93%`],
               }}
               transition={{
                 duration: Math.random() * 10 + 10,
@@ -441,10 +507,10 @@ const BackgroundBeams = React.memo(({ className }: { className?: string }) => {
                 delay: Math.random() * 10,
               }}
             >
-              <stop stopColor="#18CCFC" stopOpacity="0"></stop>
-              <stop stopColor="#18CCFC"></stop>
-              <stop offset="32.5%" stopColor="#6344F5"></stop>
-              <stop offset="100%" stopColor="#AE48FF" stopOpacity="0"></stop>
+              <stop stopColor={colors.stopColor1} stopOpacity="0"></stop>
+              <stop stopColor={colors.stopColor1}></stop>
+              <stop offset="32.5%" stopColor={colors.stopColor2}></stop>
+              <stop offset="100%" stopColor={colors.stopColor3} stopOpacity="0"></stop>
             </MotionLinearGradient>
           ))}
 
@@ -456,9 +522,9 @@ const BackgroundBeams = React.memo(({ className }: { className?: string }) => {
             gradientUnits="userSpaceOnUse"
             gradientTransform="translate(352 34) rotate(90) scale(555 1560.62)"
           >
-            <stop offset="0.0666667" stopColor="#d4d4d4"></stop>
-            <stop offset="0.243243" stopColor="#d4d4d4"></stop>
-            <stop offset="0.43594" stopColor="white" stopOpacity="0"></stop>
+            <stop offset="0.0666667" stopColor={colors.radialStop}></stop>
+            <stop offset="0.243243" stopColor={colors.radialStop}></stop>
+            <stop offset="0.43594" stopColor={theme === "dark" ? "#000" : "#fff"} stopOpacity="0"></stop>
           </radialGradient>
         </defs>
       </svg>
