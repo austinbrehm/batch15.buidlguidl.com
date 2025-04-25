@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ClassValue, clsx } from "clsx";
 import { AnimatePresence } from "motion/react";
@@ -242,14 +243,12 @@ export default function BuildersPage() {
                       <div className="flex items-center mb-4">
                         <Link href={`/builders/${builder.address}`} key={builder.address} prefetch>
                           <div className="relative">
-                            <img
+                            <Image
                               src={builder.avatar || "/image_not_found.png"}
                               alt={builder.name}
-                              className={cn(
-                                "w-14 h-14 rounded-full object-cover",
-                                isDarkMode ? "bg-gray-700" : "bg-gray-200",
-                              )}
-                              loading="lazy"
+                              width={56}
+                              height={56}
+                              className={cn("rounded-full object-cover", isDarkMode ? "bg-gray-700" : "bg-gray-200")}
                             />
                           </div>
                           <div className="ml-4">
