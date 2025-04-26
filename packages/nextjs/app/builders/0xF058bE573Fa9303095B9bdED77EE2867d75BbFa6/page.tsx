@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import { NextPage } from "next";
@@ -23,24 +25,30 @@ const skills = [
   { name: "Bitcoin + Runes Protocol", icon: "₿" },
   { name: "API & ERP Integration", icon: "🔗" },
   { name: "Smart Contract Events & Hooks", icon: "📚" },
+  { name: "And still learning...", icon: "...." },
 ];
 
 const projects = [
   {
-    title: "Bitcoin Etching API",
+    title: "Hyperion-RuneLand",
     stack: "Node.js • Bitcoin Core • Testnet",
     description:
-      "Built a custom Bitcoin API for etching Runes using regtest and migrated to testnet with UniSat Wallet support.",
+      "Built a custom Bitcoin API for etching Runes using regtest and migrated to testnet with UniSat Wallet support and then minting Runes tokens.",
+    url: "https://github.com/amsorrytola/Hyperion-RuneLand",
   },
   {
-    title: "zkEmail Attendance dApp",
-    stack: "zkEmail • Solidity • Scaffold-ETH 2",
-    description: "Decentralized check-in system using zk proofs of email, integrated with BatchRegistry on Arbitrum.",
+    title: "FitKnight",
+    stack: "React • Zustand • Axios • Node.js • MongoDB • Express • WebSocket",
+    description:
+      "Welcome to FitKnight, a fitness community platform where users can connect, join fitness groups, and find workout buddies based on shared goals and preferences.",
+    url: "https://github.com/amsorrytola/FitKnight",
   },
   {
-    title: "ERP Integration Suite",
-    stack: "Node.js • REST APIs • MongoDB",
-    description: "Built a backend to unify third-party ERP systems with vendor-normalized data and secure endpoints.",
+    title: "Secure Invoice",
+    stack: "Next.js • Sablier Protocol • Supabase",
+    description:
+      "Secure Invoice is an invoicing and real time payments application designed for freelancers, private tutors, mentors and gig workers..",
+    url: "https://github.com/raj210809/codekshetra2.0",
   },
 ];
 
@@ -55,7 +63,14 @@ const TalhaPortfolioPage: NextPage = () => {
             transition={{ duration: 0.8 }}
             className="rounded-full overflow-hidden w-40 h-40 border-4 border-zinc-300 dark:border-zinc-700 shadow-xl"
           >
-            <Image src="/Tola.jpeg" alt="Tola" width={160} height={160} className="object-cover w-full h-full" />
+            <Image
+              src="/Tola.jpeg"
+              alt="Tola"
+              width={160}
+              priority
+              height={160}
+              className="object-cover w-full h-full"
+            />
           </MotionDiv>
 
           <MotionDiv
@@ -108,7 +123,7 @@ const TalhaPortfolioPage: NextPage = () => {
             {skills.map(({ name, icon }) => (
               <div
                 key={name}
-                className="p-4 bg-zinc-100 dark:bg-zinc-800 rounded-xl shadow-md flex flex-col items-center gap-2 hover:scale-105 transition-transform"
+                className="p-4 bg-zinc-100 dark:bg-zinc-800 rounded-xl shadow-md flex flex-col items-center gap-2 transition-transform"
               >
                 <div className="text-2xl">{icon}</div>
                 <div className="text-center text-sm font-medium">{name}</div>
@@ -129,7 +144,8 @@ const TalhaPortfolioPage: NextPage = () => {
               <MotionDiv
                 key={index}
                 whileHover={{ scale: 1.05 }}
-                className="bg-zinc-100 dark:bg-zinc-800 p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow"
+                onClick={() => window.open(project.url, "_blank")}
+                className="bg-zinc-100 dark:bg-zinc-800 p-6 rounded-xl shadow-md hover:shadow-xl  transition-shadow"
               >
                 <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
                 <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-2">{project.stack}</p>
