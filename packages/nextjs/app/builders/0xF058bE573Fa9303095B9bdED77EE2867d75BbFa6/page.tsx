@@ -149,7 +149,7 @@ const TalhaPortfolioPage: NextPage = () => {
                 <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
                 <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-2">{project.stack}</p>
                 <p className="text-zinc-700 dark:text-zinc-200 text-sm">{project.description}</p>
-                <a href={project.url} className="text-blue-500 mt-2">
+                <a href={project.url} rel="noopener noreferrer" target="_blank" className="text-blue-500 mt-2">
                   View Project
                 </a>
               </MotionDiv>
