@@ -144,12 +144,14 @@ const TalhaPortfolioPage: NextPage = () => {
               <MotionDiv
                 key={index}
                 whileHover={{ scale: 1.05 }}
-                onClick={() => window.open(project.url, "_blank")}
                 className="bg-zinc-100 dark:bg-zinc-800 p-6 rounded-xl shadow-md hover:shadow-xl  transition-shadow"
               >
                 <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
                 <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-2">{project.stack}</p>
                 <p className="text-zinc-700 dark:text-zinc-200 text-sm">{project.description}</p>
+                <a href={project.url} className="text-blue-500 mt-2">
+                  View Project
+                </a>
               </MotionDiv>
             ))}
           </div>
