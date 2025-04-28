@@ -2,9 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import styles from "./PersonalPage.module.css";
-import { motion } from "framer-motion";
-import { useAccount, useEnsAvatar, useEnsName } from "wagmi";
+import { useEnsAvatar } from "wagmi";
 
 interface SocialLink {
   name: string;
@@ -13,9 +11,7 @@ interface SocialLink {
 }
 
 const PersonalPage: React.FC = () => {
-  const { address } = useAccount();
-  const { data: ensName } = useEnsName({ address: address, chainId: 1 });
-  const { data: ensAvatar } = useEnsAvatar({ name: ensName ?? undefined, chainId: 1 });
+  const { data: ensAvatar } = useEnsAvatar({ name: "sircoderin.eth", chainId: 1 });
   const [avatarError, setAvatarError] = useState(false);
 
   const name = "Sir Coderin";
@@ -27,73 +23,54 @@ const PersonalPage: React.FC = () => {
   const socialLinks: SocialLink[] = [{ name: "GitHub", url: "https://github.com/sircoderin", icon: "📁" }];
 
   return (
-    <div className={styles.container}>
-      <motion.div
-        className={styles.profile}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <motion.div
-          className={styles.profile__avatar}
-          whileHover={{ scale: 1.1 }}
-          transition={{ type: "spring", stiffness: 300 }}
-        >
-          {ensAvatar && !avatarError ? (
-            <Image
-              src={ensAvatar}
-              alt={name}
-              width={150}
-              height={150}
-              className="rounded-full object-cover"
-              onError={() => setAvatarError(true)}
-            />
-          ) : (
-            <div className={styles.profile__avatarPlaceholder}>{name.charAt(0)}</div>
-          )}
-        </motion.div>
-
-        <motion.div
-          className={styles.profile__bio}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-        >
-          <h1 className={styles.profile__name}>{name}</h1>
-          <h2 className={styles.profile__title}>{title}</h2>
-          <p className={styles.profile__description}>{bio}</p>
-
-          <div className={styles.profile__contact}>
-            <motion.p
-              className={styles.profile__contactItem}
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              📍 {localAddress}
-            </motion.p>
+    <div className="flex justify-center items-center min-h-screen p-4 bg-gray-50">
+      <div className="max-w-2xl w-full bg-white rounded-xl shadow-lg p-6 transition-all duration-500">
+        <div className="flex flex-col items-center gap-6">
+          <div className="relative w-36 h-36 hover:scale-105 transition-transform duration-300">
+            {ensAvatar && !avatarError ? (
+              <Image
+                src={ensAvatar}
+                alt={name}
+                width={150}
+                height={150}
+                className="rounded-full object-cover"
+                onError={() => setAvatarError(true)}
+              />
+            ) : (
+              <div className="w-36 h-36 rounded-full bg-blue-500 flex items-center justify-center text-4xl font-bold text-white">
+                {name.charAt(0)}
+              </div>
+            )}
           </div>
 
-          <div className={styles.profile__social}>
-            {socialLinks.map((link, index) => (
-              <motion.a
-                key={index}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.socialLink}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 * index }}
-              >
-                <span className={styles.socialLink__icon}>{link.icon}</span>
-                <span className="name">{link.name}</span>
-              </motion.a>
-            ))}
+          <div className="space-y-4 text-center">
+            <h1 className="text-3xl font-bold text-gray-800">{name}</h1>
+            <h2 className="text-xl text-blue-600 font-medium">{title}</h2>
+            <p className="text-gray-600 leading-relaxed">{bio}</p>
+
+            <div className="pt-2">
+              <p className="inline-block hover:scale-105 transition-transform duration-300 text-gray-700">
+                📍 {localAddress}
+              </p>
+            </div>
+
+            <div className="flex flex-wrap justify-center gap-4 pt-2">
+              {socialLinks.map((link, index) => (
+                <a
+                  key={index}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 py-2 px-4 rounded-full transition-all duration-300 hover:scale-105 active:scale-95"
+                >
+                  <span className="text-xl">{link.icon}</span>
+                  <span className="font-medium">{link.name}</span>
+                </a>
+              ))}
+            </div>
           </div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </div>
   );
 };
