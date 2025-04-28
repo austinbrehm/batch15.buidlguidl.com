@@ -74,9 +74,24 @@ export const Header = () => {
       }
 
       try {
-        // Fetch the profile page to see if it exists
-        const response = await fetch(`/builders/${address}`);
-        setHasProfile(response.status !== 404);
+        // Use the correct API endpoint format for App Router
+        const response = await fetch(`/api/check-profile-exists?address=${address}`);
+
+        if (!response.ok) {
+          console.error("Error checking profile - HTTP error:", response.status);
+          setHasProfile(false);
+          return;
+        }
+
+        const data = await response.json();
+
+        // Check if the data includes the expected property
+        if (data && typeof data.exists === "boolean") {
+          setHasProfile(data.exists);
+        } else {
+          console.error("Invalid response format:", data);
+          setHasProfile(false);
+        }
       } catch (error) {
         console.error("Error checking profile:", error);
         setHasProfile(false);
