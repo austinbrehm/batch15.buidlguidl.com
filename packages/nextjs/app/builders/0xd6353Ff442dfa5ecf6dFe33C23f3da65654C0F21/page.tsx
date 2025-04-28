@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { useEnsAvatar } from "wagmi";
+import { useEnsAvatar, useEnsName } from "wagmi";
 
 interface SocialLink {
   name: string;
@@ -19,7 +19,8 @@ const localAddress = "Coderin's DeFi Castle";
 const socialLinks: SocialLink[] = [{ name: "GitHub", url: "https://github.com/sircoderin", icon: "📁" }];
 
 const PersonalPage: React.FC = () => {
-  const { data: ensAvatar } = useEnsAvatar({ name: "sircoderin.eth", chainId: 1 });
+  const { data: ensName } = useEnsName({ address: "0xd6353Ff442dfa5ecf6dFe33C23f3da65654C0F21", chainId: 1 });
+  const { data: ensAvatar } = useEnsAvatar({ name: ensName ?? undefined, chainId: 1 });
   const [avatarError, setAvatarError] = useState(false);
 
   return (
