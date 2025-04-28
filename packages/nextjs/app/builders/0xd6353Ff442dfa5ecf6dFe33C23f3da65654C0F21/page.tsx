@@ -10,17 +10,17 @@ interface SocialLink {
   icon: string;
 }
 
+const name = "Sir Coderin";
+const title = "Aspiring Web3 Developer";
+const bio =
+  "Hi, everyone. My name is Codrin and I've been a Web 2 developer for 5 year now. I am looking forward to get my hands on as many projects as possible to see what web 3 can truly light up in me, so thank you for organizing this! It is greatly appreciated.";
+const localAddress = "Coderin's DeFi Castle";
+
+const socialLinks: SocialLink[] = [{ name: "GitHub", url: "https://github.com/sircoderin", icon: "📁" }];
+
 const PersonalPage: React.FC = () => {
   const { data: ensAvatar } = useEnsAvatar({ name: "sircoderin.eth", chainId: 1 });
   const [avatarError, setAvatarError] = useState(false);
-
-  const name = "Sir Coderin";
-  const title = "Aspiring Web3 Developer";
-  const bio =
-    "Hi, everyone. My name is Codrin and I've been a Web 2 developer for 5 year now. I am looking forward to get my hands on as many projects as possible to see what web 3 can truly light up in me, so thank you for organizing this! It is greatly appreciated.";
-  const localAddress = "Coderin's DeFi Castle";
-
-  const socialLinks: SocialLink[] = [{ name: "GitHub", url: "https://github.com/sircoderin", icon: "📁" }];
 
   return (
     <div className="flex justify-center items-center min-h-screen p-4 bg-gray-50">
