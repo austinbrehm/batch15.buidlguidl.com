@@ -1,13 +1,11 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { StatusIndicators } from "./StatusIndicators";
 import { hardhat } from "viem/chains";
-import { useAccount } from "wagmi";
-import UserCircleIcon from "@heroicons/react/20/solid/UserCircleIcon";
 import { Bars3Icon, BugAntIcon } from "@heroicons/react/24/outline";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick, useTargetNetwork } from "~~/hooks/scaffold-eth";
@@ -61,46 +59,7 @@ export const HeaderMenuLinks = () => {
  */
 export const Header = () => {
   const { targetNetwork } = useTargetNetwork();
-  const { address } = useAccount();
   const isLocalNetwork = targetNetwork.id === hardhat.id;
-
-  const [hasProfile, setHasProfile] = useState(false);
-
-  // Check if profile exists when address changes
-  useEffect(() => {
-    const checkProfile = async () => {
-      if (!address) {
-        setHasProfile(false);
-        return;
-      }
-
-      try {
-        // Use the correct API endpoint format for App Router
-        const response = await fetch(`/api/check-profile-exists?address=${address}`);
-
-        if (!response.ok) {
-          console.error("Error checking profile - HTTP error:", response.status);
-          setHasProfile(false);
-          return;
-        }
-
-        const data = await response.json();
-
-        // Check if the data includes the expected property
-        if (data && typeof data.exists === "boolean") {
-          setHasProfile(data.exists);
-        } else {
-          console.error("Invalid response format:", data);
-          setHasProfile(false);
-        }
-      } catch (error) {
-        console.error("Error checking profile:", error);
-        setHasProfile(false);
-      }
-    };
-
-    checkProfile();
-  }, [address]);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const burgerMenuRef = useRef<HTMLDivElement>(null);
@@ -154,19 +113,6 @@ export const Header = () => {
         </ul>
       </div>
       <div className="navbar-end flex-grow mr-4 flex items-center gap-2">
-        {address && (
-          <div className="relative group">
-            {hasProfile ? (
-              <Link href={`/builders/${address}`}>
-                <UserCircleIcon className="h-6 w-6 text-gray-500 hover:text-secondary cursor-pointer" />
-              </Link>
-            ) : (
-              <div className="tooltip tooltip-bottom" data-tip="No builder page yet">
-                <UserCircleIcon className={`h-6 w-6 text-gray-300 cursor-not-allowed`} />
-              </div>
-            )}
-          </div>
-        )}
         <StatusIndicators />
         <RainbowKitCustomConnectButton />
         {isLocalNetwork && <FaucetButton />}
