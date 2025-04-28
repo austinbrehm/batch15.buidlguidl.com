@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import styles from "./PersonalPage.module.css";
 import { motion } from "framer-motion";
 import { useAccount, useEnsAvatar, useEnsName } from "wagmi";
-import styles from "~~/styles/PersonalPage.module.css";
 
 interface SocialLink {
   name: string;
