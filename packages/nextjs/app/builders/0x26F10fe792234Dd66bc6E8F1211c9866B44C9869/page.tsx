@@ -1,37 +1,74 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { Address } from "~~/components/scaffold-eth";
 
+// Social links data
+const SOCIAL_LINKS = [
+  { href: "https://github.com/Av1ralS1ngh", icon: FaGithub },
+  { href: "https://x.com/0xFaucetFailure", icon: FaTwitter },
+  { href: "https://www.linkedin.com/in/aviral-singh-b854a6342/", icon: FaLinkedin },
+];
+
+// Achievements data
+const ACHIEVEMENTS = [
+  {
+    icon: "🏆",
+    text: "Won 6 Web3 hackathons, including major competitions by ETH Global, Polygon & National hackathons",
+  },
+  {
+    icon: "👨‍💻",
+    text: "Smart contract expert with deep knowledge of Solidity security patterns and optimization",
+  },
+  {
+    icon: "🛡️",
+    text: "Graduate of Cyfrin Updraft, focused on blockchain security and auditing",
+  },
+  {
+    icon: "🌉",
+    text: "Built cross-chain solutions and DeFi protocols using industry best practices",
+  },
+];
+
+// Projects data
+const PROJECTS = [
+  {
+    title: "DeFi-Dojo",
+    description: "🧠 AI Agent Assisted DeFi Learning Platform",
+    repoUrl: "https://github.com/arnavkirti/DeFi-Dojo",
+  },
+  {
+    title: "Velmora",
+    description: "🤖 AI NPCs NFT Game with cross-chain transfers",
+    repoUrl: "https://github.com/Av1ralS1ngh/Velmora",
+  },
+];
+
+// Journey timeline data
+const JOURNEY_STEPS = [
+  { position: "start", text: "Started with Cyfrin Updraft" },
+  { position: "end", text: "Won first few hackathon" },
+  { position: "start", text: "Learnt about major DeFi protocols" },
+  { position: "end", text: "Joined BuidlGuidl Batch 15" },
+];
+
 const AviralProfile = () => {
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
-
   return (
-    <div
-      className={`flex flex-col items-center justify-center min-h-screen py-8 px-4 transition-all duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
-    >
+    <div className="flex flex-col items-center justify-center min-h-screen py-8 px-4 animate-fadeIn">
       <div className="w-full max-w-4xl bg-base-100 shadow-xl rounded-xl overflow-hidden">
         {/* Header with gradient background */}
         <div className="bg-gradient-to-r from-primary to-secondary h-32 relative">
           <div className="absolute -bottom-16 left-8">
             <div className="rounded-full border-4 border-base-100 overflow-hidden h-32 w-32 shadow-lg">
               <Image
-                src="/aviral-profile.jpg" // Replace with your image path
+                src="/aviral-profile.jpg"
                 alt="Aviral Singh"
                 width={128}
                 height={128}
                 className="object-cover"
-                onError={e => {
-                  // Fallback to placeholder if image fails to load
-                  e.currentTarget.src = "https://avatars.githubusercontent.com/u/66105983?v=4";
-                }}
+                priority
               />
             </div>
           </div>
@@ -45,30 +82,17 @@ const AviralProfile = () => {
               <Address address="0x26F10fe792234Dd66bc6E8F1211c9866B44C9869" format="short" />
             </div>
             <div className="flex space-x-3 mt-4 md:mt-0">
-              <Link
-                href="https://github.com/Av1ralS1ngh"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-circle btn-outline btn-sm"
-              >
-                <FaGithub className="h-4 w-4" />
-              </Link>
-              <Link
-                href="https://x.com/0xFaucetFailure"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-circle btn-outline btn-sm"
-              >
-                <FaTwitter className="h-4 w-4" />
-              </Link>
-              <Link
-                href="https://www.linkedin.com/in/aviral-singh-b854a6342/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-circle btn-outline btn-sm"
-              >
-                <FaLinkedin className="h-4 w-4" />
-              </Link>
+              {SOCIAL_LINKS.map((link, index) => (
+                <Link
+                  key={index}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-circle btn-outline btn-sm"
+                >
+                  <link.icon className="h-4 w-4" />
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -89,24 +113,12 @@ const AviralProfile = () => {
             <h2 className="text-xl font-semibold mb-4">Achievements</h2>
             <div className="bg-base-200 p-4 rounded-lg">
               <ul className="space-y-2">
-                <li className="flex items-start">
-                  <span className="badge badge-primary mr-2 mt-1">🏆</span>
-                  <span>
-                    Won 6 Web3 hackathons, including major competitions by ETH Global, Polygon & National hackathons
-                  </span>
-                </li>
-                <li className="flex items-start">
-                  <span className="badge badge-primary mr-2 mt-1">👨‍💻</span>
-                  <span>Smart contract expert with deep knowledge of Solidity security patterns and optimization</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="badge badge-primary mr-2 mt-1">🛡️</span>
-                  <span>Graduate of Cyfrin Updraft, focused on blockchain security and auditing</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="badge badge-primary mr-2 mt-1">🌉</span>
-                  <span>Built cross-chain solutions and DeFi protocols using industry best practices</span>
-                </li>
+                {ACHIEVEMENTS.map((achievement, index) => (
+                  <li key={index} className="flex items-start">
+                    <span className="badge badge-primary mr-2 mt-1">{achievement.icon}</span>
+                    <span>{achievement.text}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -115,39 +127,24 @@ const AviralProfile = () => {
           <div className="mt-8">
             <h2 className="text-xl font-semibold mb-4">Featured Projects</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="card bg-base-200">
-                <div className="card-body p-4">
-                  <h3 className="card-title text-lg">DeFi-Dojo</h3>
-                  <p className="text-sm">🧠 AI Agent Assisted DeFi Learning Platform</p>
-                  <div className="card-actions justify-end mt-2">
-                    <Link
-                      href="https://github.com/arnavkirti/DeFi-Dojo"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn btn-xs btn-outline"
-                    >
-                      <FaGithub className="mr-1 h-3 w-3" /> View Code
-                    </Link>
+              {PROJECTS.map((project, index) => (
+                <div key={index} className="card bg-base-200">
+                  <div className="card-body p-4">
+                    <h3 className="card-title text-lg">{project.title}</h3>
+                    <p className="text-sm">{project.description}</p>
+                    <div className="card-actions justify-end mt-2">
+                      <Link
+                        href={project.repoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-xs btn-outline"
+                      >
+                        <FaGithub className="mr-1 h-3 w-3" /> View Code
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="card bg-base-200">
-                <div className="card-body p-4">
-                  <h3 className="card-title text-lg">Velmora</h3>
-                  <p className="text-sm">🤖 AI NPCs NFT Game with cross-chain transfers</p>
-                  <div className="card-actions justify-end mt-2">
-                    <Link
-                      href="https://github.com/Av1ralS1ngh/Velmora"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn btn-xs btn-outline"
-                    >
-                      <FaGithub className="mr-1 h-3 w-3" /> View Code
-                    </Link>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
@@ -155,59 +152,27 @@ const AviralProfile = () => {
           <div className="mt-8">
             <h2 className="text-xl font-semibold mb-4">My Web3 Journey</h2>
             <div className="flex flex-col">
-              <div className="timeline">
-                <div className="timeline-start timeline-box">Started with Cyfrin Updraft</div>
-                <div className="timeline-middle">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+              {JOURNEY_STEPS.map((step, index) => (
+                <div key={index} className="timeline">
+                  {index > 0 && <hr />}
+                  {step.position === "start" && (
+                    <div className="timeline-start timeline-box">{step.text}</div>
+                  )}
+                  <div className="timeline-middle">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  {step.position === "end" && (
+                    <div className="timeline-end timeline-box">{step.text}</div>
+                  )}
+                  {index < JOURNEY_STEPS.length - 1 && <hr />}
                 </div>
-                <hr />
-              </div>
-              <div className="timeline">
-                <hr />
-                <div className="timeline-middle">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div className="timeline-end timeline-box">Won first few hackathon</div>
-                <hr />
-              </div>
-              <div className="timeline">
-                <div className="timeline-start timeline-box">Learnt about major DeFi protocols</div>
-                <div className="timeline-middle">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <hr />
-              </div>
-              <div className="timeline">
-                <hr />
-                <div className="timeline-middle">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div className="timeline-end timeline-box">Joined BuidlGuidl Batch 15</div>
-              </div>
+              ))}
             </div>
           </div>
 
