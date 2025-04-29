@@ -1,37 +1,11 @@
+import { headers } from "next/headers";
 import Link from "next/link";
-import fs from "fs";
-import path from "path";
-import { createPublicClient, http } from "viem";
-import { parseAbi } from "viem";
-import { arbitrum } from "viem/chains";
 import { SparklesIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import BackgroundBeams from "~~/components/BackgroundBeams";
 import FlipWords from "~~/components/FlipWords";
 import { MotionDiv } from "~~/components/MotionElements";
 import { Address } from "~~/components/scaffold-eth";
 import cn from "~~/utils/scaffold-eth/twMerge";
-
-const client = createPublicClient({
-  chain: arbitrum,
-  transport: http(),
-});
-
-const events = await client.getLogs({
-  address: "0xa10cD1cCB734f7662b319d26cB57c091A6aF921e",
-  events: parseAbi(["event CheckedIn(bool first, address builder, address checkInContract)"]),
-  fromBlock: 324181435n,
-  toBlock: "latest",
-});
-
-const users: { builderAddress: string; profilePage: boolean }[] = [];
-events.forEach(event => {
-  if (event.args.first) {
-    const builderAddress = event.args.builder || "";
-    const profilePath = path.join(process.cwd(), "app", "builders", builderAddress, "page.tsx");
-    const exists = fs.existsSync(profilePath);
-    users.push({ builderAddress: builderAddress, profilePage: exists });
-  }
-});
 
 function shuffleArray<T>(array: T[]): T[] {
   const newArray = [...array];
@@ -42,8 +16,27 @@ function shuffleArray<T>(array: T[]): T[] {
   return newArray;
 }
 
-export default function BuildersPage() {
-  const builders = shuffleArray(users);
+async function getBuilders() {
+  try {
+    const headersList = await headers();
+    const host = headersList.get("host");
+
+    const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+
+    const url = `${protocol}://${host}/api/builders`;
+
+    const res = await fetch(url, { cache: "no-store" });
+    const data = await res.json();
+    const builders = data?.builders;
+    return builders;
+  } catch (err) {
+    console.error("ERROR --> ", err);
+    return [];
+  }
+}
+
+export default async function BuildersPage() {
+  const builders: { builderAddress: string; profilePage: boolean }[] = shuffleArray(await getBuilders());
 
   return (
     <div
