@@ -23,6 +23,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "**.ipfs.cf-ipfs.com",
       },
+      {
+        protocol: "https",
+        hostname: "buidlguidl.com",
+      },
     ],
   },
   webpack: config => {
