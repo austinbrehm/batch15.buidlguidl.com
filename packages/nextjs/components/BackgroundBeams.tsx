@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MotionLinearGradient, MotionPath } from "./MotionElements";
 import { useTheme } from "next-themes";
 import cn from "~~/utils/scaffold-eth/twMerge";
@@ -20,6 +20,8 @@ const darkColors = {
 };
 
 const BackgroundBeams = React.memo(({ className }: { className?: string }) => {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => setIsClient(true), []);
   const { theme } = useTheme();
   const colors = theme === "dark" ? darkColors : lightColors;
 
@@ -85,19 +87,20 @@ const BackgroundBeams = React.memo(({ className }: { className?: string }) => {
               <stop offset="100%" stopColor={colors.stopColor3} stopOpacity="0"></stop>
             </MotionLinearGradient>
           ))}
-
-          <radialGradient
-            id="paint0_radial_242_278"
-            cx="0"
-            cy="0"
-            r="1"
-            gradientUnits="userSpaceOnUse"
-            gradientTransform="translate(352 34) rotate(90) scale(555 1560.62)"
-          >
-            <stop offset="0.0666667" stopColor={colors.radialStop}></stop>
-            <stop offset="0.243243" stopColor={colors.radialStop}></stop>
-            <stop offset="0.43594" stopColor={theme === "dark" ? "#000" : "#fff"} stopOpacity="0"></stop>
-          </radialGradient>
+          {isClient && (
+            <radialGradient
+              id="paint0_radial_242_278"
+              cx="0"
+              cy="0"
+              r="1"
+              gradientUnits="userSpaceOnUse"
+              gradientTransform="translate(352 34) rotate(90) scale(555 1560.62)"
+            >
+              <stop offset="0.0666667" stopColor={colors.radialStop}></stop>
+              <stop offset="0.243243" stopColor={colors.radialStop}></stop>
+              <stop offset="0.43594" stopColor={theme === "dark" ? "#000" : "#fff"} stopOpacity="0"></stop>
+            </radialGradient>
+          )}
         </defs>
       </svg>
     </div>
