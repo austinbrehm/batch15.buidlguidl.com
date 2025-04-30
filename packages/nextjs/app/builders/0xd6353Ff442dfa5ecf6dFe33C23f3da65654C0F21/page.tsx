@@ -34,7 +34,7 @@ const socialLinks: SocialLink[] = [
   },
 ];
 
-const PersonalPage: React.FC = () => {
+const SirCoderinProfile: React.FC = () => {
   const { data: ensName } = useEnsName({ address: address, chainId: 1 });
   const { data: ensAvatar } = useEnsAvatar({ name: ensName ?? undefined, chainId: 1 });
   const [avatarError, setAvatarError] = useState(false);
@@ -96,4 +96,4 @@ const PersonalPage: React.FC = () => {
   );
 };
 
-export default PersonalPage;
+export default SirCoderinProfile;
