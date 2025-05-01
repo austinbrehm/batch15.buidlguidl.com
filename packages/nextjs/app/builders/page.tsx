@@ -1,42 +1,68 @@
-import { headers } from "next/headers";
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { SparklesIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import BackgroundBeams from "~~/components/BackgroundBeams";
 import FlipWords from "~~/components/FlipWords";
 import { MotionDiv } from "~~/components/MotionElements";
 import { Address } from "~~/components/scaffold-eth";
+import { useScaffoldEventHistory } from "~~/hooks/scaffold-eth";
 import cn from "~~/utils/scaffold-eth/twMerge";
 
-function shuffleArray<T>(array: T[]): T[] {
-  const newArray = [...array];
-  for (let i = newArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-  }
-  return newArray;
-}
+// function shuffleArray<T>(array: T[]): T[] {
+//   const newArray = [...array];
+//   for (let i = newArray.length - 1; i > 0; i--) {
+//     const j = Math.floor(Math.random() * (i + 1));
+//     [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+//   }
+//   return newArray;
+// }
 
-async function getBuilders() {
-  try {
-    const headersList = await headers();
-    const host = headersList.get("host");
+type Builder = { builderAddress: string; profilePage: boolean };
 
-    const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+const BuildersPage = () => {
+  const [profilePages, setProfilePages] = useState<Set<string>>(new Set());
 
-    const url = `${protocol}://${host}/api/builders`;
+  const { data: events } = useScaffoldEventHistory({
+    contractName: "BatchRegistry",
+    eventName: "CheckedIn",
+    fromBlock: 324181435n,
+    chainId: 42161,
+  });
 
-    const res = await fetch(url, { cache: "no-store" });
-    const data = await res.json();
-    const builders = data?.builders;
-    return builders;
-  } catch (err) {
-    console.error("ERROR --> ", err);
-    return [];
-  }
-}
+  useEffect(() => {
+    const checkProfilePages = async () => {
+      if (!events) return;
 
-export default async function BuildersPage() {
-  const builders: { builderAddress: string; profilePage: boolean }[] = shuffleArray(await getBuilders());
+      try {
+        const response = await fetch(`/api/builders`);
+        const existingAddresses = await response.json();
+        setProfilePages(new Set(existingAddresses));
+      } catch (error) {
+        console.error(`Error checking profiles:`, error);
+      }
+    };
+
+    checkProfilePages();
+  }, [events]);
+
+  const builders = useMemo<Builder[]>(() => {
+    if (!events) return [];
+
+    const uniqueAddresses: string[] = [];
+    events.forEach(event => {
+      const address = event.args.builder;
+      if (!address) return;
+      if (!uniqueAddresses.find(addr => address === addr)) uniqueAddresses.push(address);
+    });
+    const buildersList = uniqueAddresses.map(address => ({
+      builderAddress: address,
+      profilePage: profilePages.has(address),
+    }));
+
+    return buildersList.filter(builder => !!builder);
+  }, [events, profilePages]);
 
   return (
     <div
@@ -140,4 +166,6 @@ export default async function BuildersPage() {
       <BackgroundBeams />
     </div>
   );
-}
+};
+
+export default BuildersPage;
