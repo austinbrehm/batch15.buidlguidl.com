@@ -1,4 +1,6 @@
-import { headers } from "next/headers";
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { SparklesIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import BackgroundBeams from "~~/components/BackgroundBeams";
@@ -16,27 +18,29 @@ function shuffleArray<T>(array: T[]): T[] {
   return newArray;
 }
 
-async function getBuilders() {
+type Builder = { builderAddress: string; profilePage: boolean };
+
+const getBuilders = async (): Promise<Builder[]> => {
   try {
-    const headersList = await headers();
-    const host = headersList.get("host");
-
-    const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
-
-    const url = `${protocol}://${host}/api/builders`;
-
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetch("/api/builders");
     const data = await res.json();
     const builders = data?.builders;
-    return builders;
+    return builders as Builder[];
   } catch (err) {
     console.error("ERROR --> ", err);
     return [];
   }
-}
+};
 
-export default async function BuildersPage() {
-  const builders: { builderAddress: string; profilePage: boolean }[] = shuffleArray(await getBuilders());
+const BuildersPage = () => {
+  const [builders, setBuilders] = useState<Builder[]>([]);
+  useEffect(() => {
+    const fetchProfilePages = async () => {
+      const builderProfiles = shuffleArray(await getBuilders());
+      setBuilders(builderProfiles);
+    };
+    fetchProfilePages();
+  }, []);
 
   return (
     <div
@@ -140,4 +144,6 @@ export default async function BuildersPage() {
       <BackgroundBeams />
     </div>
   );
-}
+};
+
+export default BuildersPage;
