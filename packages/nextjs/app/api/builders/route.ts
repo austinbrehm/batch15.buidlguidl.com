@@ -5,8 +5,6 @@ import { createPublicClient, http } from "viem";
 import { parseAbi } from "viem";
 import { arbitrum } from "viem/chains";
 
-const BATCH_REGISTRY_ADDRESS = "0xa10cD1cCB734f7662b319d26cB57c091A6aF921e";
-
 export async function GET() {
   const builders: { builderAddress: string; profilePage: boolean }[] = [];
   try {
@@ -16,7 +14,7 @@ export async function GET() {
     });
 
     const events = await client.getLogs({
-      address: BATCH_REGISTRY_ADDRESS,
+      address: "0xa10cD1cCB734f7662b319d26cB57c091A6aF921e",
       events: parseAbi(["event CheckedIn(bool first, address builder, address checkInContract)"]),
       fromBlock: 324181435n,
       toBlock: "latest",
