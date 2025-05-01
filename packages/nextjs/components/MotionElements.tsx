@@ -10,5 +10,18 @@ const MotionA = motion.a;
 const MotionSpan = motion.span;
 const MotionPath = motion.path;
 const MotionLinearGradient = motion.linearGradient;
+const MotionS = motion.section;
+const MotionSection = motion.section;
 
-export { MotionA, MotionDiv, MotionH1, MotionMain, MotionP, MotionSpan, MotionPath, MotionLinearGradient };
+export {
+  MotionA,
+  MotionDiv,
+  MotionH1,
+  MotionMain,
+  MotionP,
+  MotionSpan,
+  MotionPath,
+  MotionLinearGradient,
+  MotionS,
+  MotionSection,
+};
