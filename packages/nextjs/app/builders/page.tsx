@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { SparklesIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import BackgroundBeams from "~~/components/BackgroundBeams";
 import FlipWords from "~~/components/FlipWords";
 import { MotionDiv } from "~~/components/MotionElements";
 import { Address } from "~~/components/scaffold-eth";
+import { useScaffoldEventHistory } from "~~/hooks/scaffold-eth";
 import cn from "~~/utils/scaffold-eth/twMerge";
 
 // function shuffleArray<T>(array: T[]): T[] {
@@ -20,27 +21,65 @@ import cn from "~~/utils/scaffold-eth/twMerge";
 
 type Builder = { builderAddress: string; profilePage: boolean };
 
-const getBuilders = async () => {
-  try {
-    const res = await fetch("/api/builders");
-    const data = await res.json();
-    const builders = data?.builders;
-    return builders;
-  } catch (err) {
-    console.error("ERROR --> ", err);
-    return [];
-  }
-};
+// const getBuilders = async () => {
+//   try {
+//     const res = await fetch("/api/builders");
+//     const data = await res.json();
+//     const builders = data?.builders;
+//     return builders;
+//   } catch (err) {
+//     console.error("ERROR --> ", err);
+//     return [];
+//   }
+// };
 
 const BuildersPage = () => {
-  const [builders, setBuilders] = useState<Builder[]>([]);
+  // const [builders, setBuilders] = useState<Set<string>>(new Set());
+  const [profilePages, setProfilePages] = useState<Set<string>>(new Set());
+
+  const { data: events } = useScaffoldEventHistory({
+    contractName: "BatchRegistry",
+    eventName: "CheckedIn",
+    fromBlock: 314186263n, // 10 blocks before contract deployment (block 314186273)
+    chainId: 42161,
+  });
+
   useEffect(() => {
-    const fetchProfilePages = async () => {
-      const builderProfiles = await getBuilders();
-      setBuilders(builderProfiles);
+    const checkProfilePages = async () => {
+      if (!events) return;
+
+      try {
+        const response = await fetch(`/api/builders`);
+        const existingAddresses = await response.json();
+        setProfilePages(new Set(existingAddresses));
+      } catch (error) {
+        console.error(`Error checking profiles:`, error);
+      }
     };
-    fetchProfilePages();
-  }, []);
+
+    checkProfilePages();
+  }, [events]);
+
+  const builders = useMemo<Builder[]>(() => {
+    if (!events) return [];
+
+    // Filter out duplicate addresses to get unique ones
+    const uniqueAddresses: string[] = [];
+    events.forEach(event => {
+      const address = event.args.builder;
+      if (!address) return;
+      if (!uniqueAddresses.find(addr => address === addr)) uniqueAddresses.push(address);
+    });
+
+    // Transform addresses into builder objects
+    const buildersList = uniqueAddresses.map(address => ({
+      builderAddress: address,
+      profilePage: profilePages.has(address),
+    }));
+
+    // Filter out any undefined entries
+    return buildersList.filter(builder => !!builder);
+  }, [events, profilePages]);
 
   return (
     <div
