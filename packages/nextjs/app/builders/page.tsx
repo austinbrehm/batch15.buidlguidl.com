@@ -9,23 +9,23 @@ import { MotionDiv } from "~~/components/MotionElements";
 import { Address } from "~~/components/scaffold-eth";
 import cn from "~~/utils/scaffold-eth/twMerge";
 
-function shuffleArray<T>(array: T[]): T[] {
-  const newArray = [...array];
-  for (let i = newArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-  }
-  return newArray;
-}
+// function shuffleArray<T>(array: T[]): T[] {
+//   const newArray = [...array];
+//   for (let i = newArray.length - 1; i > 0; i--) {
+//     const j = Math.floor(Math.random() * (i + 1));
+//     [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+//   }
+//   return newArray;
+// }
 
 type Builder = { builderAddress: string; profilePage: boolean };
 
-const getBuilders = async (): Promise<Builder[]> => {
+const getBuilders = async () => {
   try {
     const res = await fetch("/api/builders");
     const data = await res.json();
     const builders = data?.builders;
-    return builders as Builder[];
+    return builders;
   } catch (err) {
     console.error("ERROR --> ", err);
     return [];
@@ -36,7 +36,7 @@ const BuildersPage = () => {
   const [builders, setBuilders] = useState<Builder[]>([]);
   useEffect(() => {
     const fetchProfilePages = async () => {
-      const builderProfiles = shuffleArray(await getBuilders());
+      const builderProfiles = await getBuilders();
       setBuilders(builderProfiles);
     };
     fetchProfilePages();
