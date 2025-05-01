@@ -1,5 +1,4 @@
-"use client";
-
+import { type NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
@@ -54,7 +53,7 @@ const JOURNEY_STEPS = [
   { position: "end", text: "Joined BuidlGuidl Batch 15" },
 ];
 
-const AviralProfile = () => {
+const AviralProfile: NextPage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-8 px-4 animate-fadeIn">
       <div className="w-full max-w-4xl bg-base-100 shadow-xl rounded-xl overflow-hidden">
