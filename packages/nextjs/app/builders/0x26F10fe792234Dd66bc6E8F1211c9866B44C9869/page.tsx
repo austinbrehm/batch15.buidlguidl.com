@@ -1,6 +1,6 @@
-import { type NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { type NextPage } from "next";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { Address } from "~~/components/scaffold-eth";
 
@@ -154,9 +154,7 @@ const AviralProfile: NextPage = () => {
               {JOURNEY_STEPS.map((step, index) => (
                 <div key={index} className="timeline">
                   {index > 0 && <hr />}
-                  {step.position === "start" && (
-                    <div className="timeline-start timeline-box">{step.text}</div>
-                  )}
+                  {step.position === "start" && <div className="timeline-start timeline-box">{step.text}</div>}
                   <div className="timeline-middle">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                       <path
@@ -166,9 +164,7 @@ const AviralProfile: NextPage = () => {
                       />
                     </svg>
                   </div>
-                  {step.position === "end" && (
-                    <div className="timeline-end timeline-box">{step.text}</div>
-                  )}
+                  {step.position === "end" && <div className="timeline-end timeline-box">{step.text}</div>}
                   {index < JOURNEY_STEPS.length - 1 && <hr />}
                 </div>
               ))}
