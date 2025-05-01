@@ -21,26 +21,13 @@ import cn from "~~/utils/scaffold-eth/twMerge";
 
 type Builder = { builderAddress: string; profilePage: boolean };
 
-// const getBuilders = async () => {
-//   try {
-//     const res = await fetch("/api/builders");
-//     const data = await res.json();
-//     const builders = data?.builders;
-//     return builders;
-//   } catch (err) {
-//     console.error("ERROR --> ", err);
-//     return [];
-//   }
-// };
-
 const BuildersPage = () => {
-  // const [builders, setBuilders] = useState<Set<string>>(new Set());
   const [profilePages, setProfilePages] = useState<Set<string>>(new Set());
 
   const { data: events } = useScaffoldEventHistory({
     contractName: "BatchRegistry",
     eventName: "CheckedIn",
-    fromBlock: 314186263n, // 10 blocks before contract deployment (block 314186273)
+    fromBlock: 324181435n,
     chainId: 42161,
   });
 
@@ -63,21 +50,17 @@ const BuildersPage = () => {
   const builders = useMemo<Builder[]>(() => {
     if (!events) return [];
 
-    // Filter out duplicate addresses to get unique ones
     const uniqueAddresses: string[] = [];
     events.forEach(event => {
       const address = event.args.builder;
       if (!address) return;
       if (!uniqueAddresses.find(addr => address === addr)) uniqueAddresses.push(address);
     });
-
-    // Transform addresses into builder objects
     const buildersList = uniqueAddresses.map(address => ({
       builderAddress: address,
       profilePage: profilePages.has(address),
     }));
 
-    // Filter out any undefined entries
     return buildersList.filter(builder => !!builder);
   }, [events, profilePages]);
 
