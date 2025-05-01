@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: process.env.NEXT_PUBLIC_IGNORE_BUILD_ERROR === "true",
   },
+  // Ensure file system access works in production for the builders API route
+  outputFileTracingIncludes: {
+    "/api/builders": ["./app/builders/**/*"],
+  },
   images: {
     remotePatterns: [
       {
