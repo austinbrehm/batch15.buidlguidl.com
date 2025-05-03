@@ -4,7 +4,6 @@ import React, { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { PersonalProfile } from "./PersonalProfile";
 import { StatusIndicators } from "./StatusIndicators";
 import { hardhat } from "viem/chains";
 import { Bars3Icon, BugAntIcon } from "@heroicons/react/24/outline";
@@ -118,7 +117,6 @@ export const Header = () => {
         </ul>
       </div>
       <div className="navbar-end flex-grow mr-4 flex items-center gap-2">
-        <PersonalProfile />
         <StatusIndicators />
         <RainbowKitCustomConnectButton />
         {isLocalNetwork && <FaucetButton />}
