@@ -14,7 +14,7 @@ const QulinkProfilePage: NextPage = () => {
             {/* Avatar */}
             <div className="w-48 h-48 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 mb-6">
               <Image
-                src="/profile-pic.png"
+                src="/qulink_pp.png"
                 alt="Qulink Avatar"
                 width={192}
                 height={192}
